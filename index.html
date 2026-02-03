@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snorkle Embed Tests</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #000000;
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #EA088B;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .logo-labs {
+            font-size: 0.9rem;
+            color: cyan;
+            font-style: italic;
+            font-weight: bold;
+            vertical-align: super;
+            margin-left: 0.2rem;
+        }
+
+        .header-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: rgb(173, 216, 230);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 4rem 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .description {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .embed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+            gap: 4rem;
+            padding: 2rem;
+        }
+
+        .embed-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 3rem;
+            margin: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .embed-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .embed-title {
+            color: #0d1117;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .embed-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+            background: #f0f0f0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .embed-code-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #e1e4e8;
+        }
+
+        .code-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #586069;
+            margin-bottom: 0.5rem;
+        }
+
+        .embed-code {
+            display: block;
+            background: #0d1117;
+            color: #58a6ff;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            word-break: break-all;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: #000000;
+            color: rgb(173, 216, 230);
+            padding: 2rem;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgb(173, 216, 230);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link:hover {
+            color: #ffffff;
+        }
+
+        .footer-text {
+            font-size: 0.875rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .embed-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .embed-card {
+                padding: 1.5rem;
+                margin: 1.5rem 0.5rem;
+            }
+
+            .embed-title {
+                font-size: 1.1rem;
+            }
+
+            .main-content {
+                padding: 3rem 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="https://snorkle.ai" class="logo">
+                Snorkle<span class="logo-labs">Labs</span>
+            </a>
+            <div class="header-title">Embed Tests</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <h1>Snorkle Embed Tests</h1>
+            <p class="description">
+                Testing various visual types embedded as iframes
+            </p>
+
+            <div class="embed-grid" id="embedGrid">
+                <!-- Embeds will be generated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://snorkle.ai" class="footer-link">Home</a>
+                <a href="https://snorkle.ai/about" class="footer-link">About</a>
+                <a href="https://snorkle.ai/contact" class="footer-link">Contact</a>
+                <a href="https://snorkle.ai/pricing" class="footer-link">Pricing</a>
+            </div>
+            <p class="footer-text">&copy; 2026 Snorkle. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Embed data
+        const embedUrls = [
+        {
+                url: 'https://vis.snorkle.io/-o5aDkBXLgogy16tg_Rr0sKS_C71YD8570Zfrbp7fGQ=/viewer.html',
+                title: 'דובון מים'
+            },
+            {
+                url: 'https://vis.snorkle.io/rjp3hlrHvjgpI4hw6jyDlWfM2BVgBuigmv3acJxSiJs=/viewer.html',
+                title: 'Crystal structure of papain (9PAP from PDB)'
+            },
+            {
+                url: 'https://vis.snorkle.io/_10ouR_SB5j9HhRr38ry01_CYfeTHqqXITL49s_8vRfP.html',
+                title: 'Isomers!'
+            }
+
+        ];
+
+        // Generate embed cards
+        const embedGrid = document.getElementById('embedGrid');
+        embedUrls.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'embed-card';
+            
+            const embedCode = `&lt;iframe src="${item.url}" width="640" height="360"&gt;&lt;/iframe&gt;`;
+            
+            card.innerHTML = `
+                <h3 class="embed-title">${item.title}</h3>
+                <div class="embed-container">
+                    <iframe
+                        src="${item.url}"
+                        width="640"
+                        height="360"
+                        title="${item.title}"
+                        frameborder="0"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+                <div class="embed-code-section">
+                    <p class="code-label">Embed Code:</p>
+                    <code class="embed-code">${embedCode}</code>
+                </div>
+            `;
+            
+            embedGrid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
